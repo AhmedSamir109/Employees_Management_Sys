@@ -1,0 +1,56 @@
+﻿@model CreateDepartmentDto
+@{
+    ViewData["Title"] = "Create";
+}
+
+@Model
+
+<div class="row justify-content-center align-content-center my-3">
+    <h1 class="col-8 my-4">Create Department</h1>
+
+    
+    <form class="col-8 border border-1 rounded-2 shadow-sm p-5" method="post" asp-controller="Departments" asp-action="create">
+
+        <div class="text-warning" asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group mb-3">
+            
+            <label class="form-label" asp-for="Code"></label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="Description"></label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="DateOfCreation"></label>
+            <input type="date" asp-for="DateOfCreation" class="form-control" />
+        </div>
+        <div class="mt-4 m-auto">
+            <input class="btn btn-primary" type="submit" value="Create" />
+            <a class="btn btn-outline-primary" asp-action="Index">Back to list</a>
+        </div>
+    </form>
+</div>
+
+
+@section ValidationScript
+{
+
+<script src = "~/lib/jquery-validation/dist/jquery.validate.min.js" ></script >
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+}
+
+
+
+@* asp-validation-for  --> server side and client side validation message *@  
+@* asp-for *@
+
+

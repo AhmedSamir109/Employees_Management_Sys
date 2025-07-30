@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 @media (min-width: 768px) {
@@ -28,4 +28,106 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/*.active {
+    background-color: #258cfb;
+    padding: 5px 10px;
+    border-radius: 5px;
+}*/
+.nav-link.active {
+    font-weight: bold;
+    color: #0d6efd !important; /* Bootstrap primary color */
+    background-color: #e9ecef; /* Optional: subtle background */
+    border-radius: 0.25rem;
+}
+
+
+/*home page*/
+
+/*.home {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width:100%;
+}*/
+
+.dashboard-card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .dashboard-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+    }
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.btn-dashboard {
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-dashboard:hover {
+        transform: scale(1.05);
+    }
+
+.btn-departments {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+}
+
+.btn-employees {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+    color: white;
+}
+
+.stats-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.section-title {
+    color: black;
+    text-align: center;
+    font-weight: 300;
+    margin-bottom:2rem ;
+}
+
+.section-subtitle {
+    color: black;
+    text-align: center;
+    margin-bottom: 2rem;
 }

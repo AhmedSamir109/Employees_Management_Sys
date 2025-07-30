@@ -2,7 +2,61 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center mb-3">
+            <h1 class="section-title display-4">Management Dashboard</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <!-- Departments Section -->
+        <div class="col-lg-5 col-md-6">
+            <div class="card dashboard-card h-100">
+
+                <div class="card-body text-center p-5">
+                    <div class="card-icon text-primary">
+                        <i class="bi bi-diagram-3"></i>
+                    </div>
+                    <h3 class="card-title mb-3 fw-bold">Departments</h3>
+                    <p class="card-text text-muted mb-4">
+                        Manage organizational departments, view hierarchies, and oversee departmental operations and resources.
+                    </p>
+
+                    <a class="btn btn-dashboard btn-departments" asp-controller="Departments" asp-action="Index">
+                        <i class="bi bi-arrow-right-circle me-2"></i>
+                        Access Departments
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employees Section -->
+        <div class="col-lg-5 col-md-6">
+            <div class="card dashboard-card h-100">
+
+                <div class="card-body text-center p-5">
+                    <div class="card-icon text-success">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3 class="card-title mb-3 fw-bold">Employees</h3>
+                    <p class="card-text text-muted mb-4">
+                        Manage employee records, track performance, handle HR operations, and maintain staff information.
+                    </p>
+
+                    <a class="btn btn-dashboard btn-employees" asp-controller="Employees" asp-action="Index">
+                        <i class="bi bi-arrow-right-circle me-2"></i>
+                        Access Employees
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
+

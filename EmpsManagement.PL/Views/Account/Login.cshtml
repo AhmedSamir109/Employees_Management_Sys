@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "AuthLayout";
+}
+
+<h1 class="mt-4">Login Form</h1>
+
+<div class="main-agileinfo">
+    <div class="agileits-top">
+        <form asp-action="Login" method="post">
+
+            <div asp-validation-summary="All"class="text-center mb-4"></div>
+
+            <input asp-for="Email" placeholder="Email">
+            <span asp-validation-for="Email" class="text-light mb-4"></span>
+            <br />
+            <input asp-for="Password" placeholder="Password">
+            <span asp-validation-for="Password" class="text-light mb-4"></span>
+            <br />
+
+            <div class="wthree-text">
+                <label class="anim">
+                    <input asp-for="RememberMe" class="checkbox">
+                    <span>Keep Me Signed In</span>
+                </label>
+                <div class="clear"> </div>
+            </div>
+            <input type="submit" value="Log IN">
+        </form>
+        <p>Don't have an Account? <a asp-action="Register"> Register Now!</a></p>
+    </div>
+</div>
