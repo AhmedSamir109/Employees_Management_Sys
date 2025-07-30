@@ -11,8 +11,8 @@ namespace EmpsManagement.BLL.Services.Employee
     {
         IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName);
         EmployeeDetailsDto? GetbyId(int id);
-        int createEmployee(CreateEmployeeDto departmentDto);
-        int UpdateEmployee(UpdateEmployeeDto departmentDto);
+        int createEmployee(CreateEmployeeDto employeeDto);
+        int UpdateEmployee(UpdateEmployeeDto employeeDto);
         bool DeleteEmployee(int id);
     }
 }

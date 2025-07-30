@@ -83,6 +83,7 @@ namespace EmpsManagement.BLL.Services.Employee
         public bool DeleteEmployee(int id)
         {
             var employee = _unitOfWork.EmployeeRepository.GetById(id);
+
             if (employee is null)
             {
                 return false; // Employee not found

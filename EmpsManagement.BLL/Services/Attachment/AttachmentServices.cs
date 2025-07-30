@@ -40,10 +40,16 @@ namespace EmpsManagement.BLL.Services.Attachment
 
         }
 
-        public bool Delete(string filePath)
+        public bool Delete(string fileName , string folderName)
         {
+            if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(folderName))
+            {
+                return false; // Invalid input
+            }
 
-            if(File.Exists(filePath))
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Files", folderName, fileName);
+
+            if (File.Exists(filePath))
             {
                 try
                 {

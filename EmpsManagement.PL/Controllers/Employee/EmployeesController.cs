@@ -6,6 +6,7 @@ using EmpsManagement.DAL.Models.Shared.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using EmpsManagement.BLL.Services.Attachment;
 
 namespace EmpsManagement.PL.Controllers.Employee
 {
@@ -104,7 +105,7 @@ namespace EmpsManagement.PL.Controllers.Employee
         #region Edit
 
         [HttpGet]
-        public IActionResult Edit(int? id , [FromServices] IDepartmentServices departmentServices)
+        public IActionResult Edit(int? id, [FromServices] IDepartmentServices departmentServices)
         {
             if (!id.HasValue)
             {
@@ -115,7 +116,7 @@ namespace EmpsManagement.PL.Controllers.Employee
             ViewBag.Departments = departments;
 
             var employee = _employeeServices.GetbyId(id.Value);
-          
+
 
             if (employee == null)
             {
@@ -123,26 +124,7 @@ namespace EmpsManagement.PL.Controllers.Employee
             }
 
 
-            #region Cast imageName to file
 
-            //IFormFile? file = null;
-
-            //if (!string.IsNullOrEmpty(employee.ImageName))
-            //{
-            //    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Files", "Images", employee.ImageName);
-
-            //    if (File.Exists(filePath))
-            //    {
-            //        var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-
-            //        file = new FormFile(stream, 0, stream.Length, "Image", employee.ImageName)
-            //        {
-            //            Headers = new HeaderDictionary(),
-            //            ContentType = "image/jpeg" // or detect dynamically
-            //        };
-            //    }
-            //}
-            #endregion
 
             var updateEmployeeDto = new UpdateEmployeeDto
             {
@@ -170,9 +152,9 @@ namespace EmpsManagement.PL.Controllers.Employee
 
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, UpdateEmployeeDto employee) 
+        public IActionResult Edit([FromRoute] int? id, UpdateEmployeeDto employee)
         {
-            if(!id.HasValue || id != employee.Id) return BadRequest();
+            if (!id.HasValue || id != employee.Id) return BadRequest();
 
             if (!ModelState.IsValid) return View(employee);
 
@@ -213,15 +195,19 @@ namespace EmpsManagement.PL.Controllers.Employee
         #endregion
 
         #region Delete
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int id, [FromServices] IAttachmentServices attachmentServices)
         {
             if (id == 0)
                 return BadRequest();
 
+            var employee = _employeeServices.GetbyId(id);
             bool Deleted = _employeeServices.DeleteEmployee(id);
 
             if (Deleted)
+            {
+                attachmentServices.Delete(employee.ImageName, "images");
                 return RedirectToAction("Index");
+            }
 
             // Return a default response if deletion fails
             ModelState.AddModelError("", "An error occurred while deleting the department.");
