@@ -123,9 +123,6 @@ namespace EmpsManagement.PL.Controllers.Employee
                 return NotFound();
             }
 
-
-
-
             var updateEmployeeDto = new UpdateEmployeeDto
             {
                 Id = employee.Id,
@@ -140,9 +137,7 @@ namespace EmpsManagement.PL.Controllers.Employee
                 Gender = Enum.Parse<Gender>(employee.Gender),
                 IsActive = employee.IsActive,
                 DepartmentId = employee.DepartmentId,
-                //Image= employee.ImageName != null ? new FormFile(new MemoryStream(), 0, 0, null, (string)employee.ImageName) : null,
-
-
+                ImageName = employee.ImageName
             };
 
 
@@ -158,11 +153,12 @@ namespace EmpsManagement.PL.Controllers.Employee
 
             if (!ModelState.IsValid) return View(employee);
 
+
             try
             {
-                int result = _employeeServices.UpdateEmployee(employee);
+                int result = _employeeServices.UpdateEmployee(employee , employee.ImageName );
+                
                 string message;
-
                 if (result > 0)
                 {
                     message = $"Department {employee.Name} is Edited successfully.";

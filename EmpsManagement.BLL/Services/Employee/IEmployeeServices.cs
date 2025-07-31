@@ -12,7 +12,7 @@ namespace EmpsManagement.BLL.Services.Employee
         IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName);
         EmployeeDetailsDto? GetbyId(int id);
         int createEmployee(CreateEmployeeDto employeeDto);
-        int UpdateEmployee(UpdateEmployeeDto employeeDto);
+        int UpdateEmployee(UpdateEmployeeDto employeeDto , string? oldImageName);
         bool DeleteEmployee(int id);
     }
 }

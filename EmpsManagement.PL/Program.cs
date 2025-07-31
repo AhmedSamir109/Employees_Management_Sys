@@ -1,11 +1,13 @@
 using EmpsManagement.BLL.Services;
 using EmpsManagement.BLL.Services.Attachment;
+using EmpsManagement.BLL.Services.EmailService;
 using EmpsManagement.BLL.Services.Employee;
 using EmpsManagement.DAL.Data.Contexts;
 using EmpsManagement.DAL.Models.Identity;
 using EmpsManagement.DAL.Repositories.Classes;
 using EmpsManagement.DAL.Repositories.Interfaces;
 using EmpsManagement.DAL.Unit_Of_Work;
+using EmpsManagement.PL.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +19,7 @@ namespace EmpsManagement.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +30,12 @@ namespace EmpsManagement.PL
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // This filter automatically validates the antiforgery token for all POST requests to prevent CSRF attacks.
 
-                var policy = new AuthorizationPolicyBuilder()
-                               .RequireAuthenticatedUser()
-                               .Build();
+                //var policy = new AuthorizationPolicyBuilder()
+                //               .RequireAuthenticatedUser()
+                //               .Build();
 
-                options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter());
-                options.Filters.Add(new AuthorizeFilter(policy));
+                //options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter());
+                //options.Filters.Add(new AuthorizeFilter(policy));
 
 
             });
@@ -53,20 +55,23 @@ namespace EmpsManagement.PL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAttachmentServices, AttachmentServices>();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>() // Add Identity services for user and role management
-                .AddEntityFrameworkStores<ApplicationDbContext>() // Use the ApplicationDbContext for storing user and role data
-                .AddDefaultTokenProviders(); // Add default token providers for password reset, email confirmation, etc.
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {         // Add Identity services for user and role management
+                options.Password.RequireDigit = true; // Require at least one digit in the password
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true; // Require at least one non-alphanumeric character in the password
 
-        
+            }).AddEntityFrameworkStores<ApplicationDbContext>() // Use the ApplicationDbContext for storing user and role data
+              .AddDefaultTokenProviders(); // Add default token providers for password reset, email confirmation, etc.
 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)   //  is the default authentication scheme name used by ASP.NET Core's cookie-based authentication system.
                             .AddCookie(options =>
                             {
-                                 options.LoginPath = "/Account/Login"; // or your login path
-                                 options.AccessDeniedPath = "/Account/AccessDenied";
+                                options.LoginPath = "/Account/Login";                 // redirect to this path when the user is not authenticated or not authorized or token is expired or logout
+                                options.AccessDeniedPath = "/Account/AccessDenied";
                             });
 
-            builder.Services.AddAuthorization();
 
             #endregion
 
@@ -103,10 +108,19 @@ namespace EmpsManagement.PL
 
             app.MapControllerRoute(   // Define the default route for controllers
                 name: "default",
-                pattern: "{controller=Account}/{action=Login}/{id?}")
+                pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             #endregion
+
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await AdminSetter.SeedAdminAsync(services);  // Call your helper method here
+            }
+
 
             app.Run();
         }

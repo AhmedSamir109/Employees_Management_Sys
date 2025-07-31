@@ -1,0 +1,40 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center my-4"> Edit @Model.FName @Model.LName </h1>
+
+<section class="row justify-content-center align-items-center my-3">
+
+    <form class="col-sm-6 border border-1 rounded-3 p-4" asp-controller="User" asp-action="Edit">
+
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="FName"></label>
+            <input asp-for="FName" class="form-control"  />
+        </div>
+
+        <input asp-for="Id" hidden/>
+
+        <input asp-for="Email" hidden />
+
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="LName"></label>
+            <input asp-for="LName" class="form-control"  />
+        </div>
+
+        <div class="form-group mb-3 ">
+            <label class="form-label" asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control"  />
+        </div>
+
+
+    
+
+        <input type="submit"  value="Save" class="btn btn-success"/>
+        <a asp-action="Index" class="btn btn-outline-primary">Back To list</a>
+
+    </form>
+
+</section>

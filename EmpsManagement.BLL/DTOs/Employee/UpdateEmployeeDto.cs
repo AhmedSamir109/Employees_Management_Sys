@@ -44,5 +44,6 @@ namespace EmpsManagement.BLL.DTOs.Employee
         public int? DepartmentId { get; set; }
         public IFormFile? Image { get; set; }
 
+        public string? ImageName { get; set; }
     }
 }

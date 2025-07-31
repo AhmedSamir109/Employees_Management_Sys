@@ -23,12 +23,16 @@ namespace EmpsManagement.BLL.DTOs.Employee
         public decimal Salary { get; set; }
         public string Gender { get; set; }
 
-        [Display(Name = "Employee Type")]
+        [Display(Name = "Type")]
         public  string EmployeeType { get; set; }
 
         [Display (Name = "Is Active")]
         public bool IsActive { get; set; }
 
+        [Display(Name = "Image")]
+        public string? ImageName { get; set; }
+        
+        [Display(Name = "Department")]
         public string? DepartmentName { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace EmpsManagement.BLL.Services.Attachment
 
         }
 
-        public bool Delete(string fileName , string folderName)
+        public bool Delete(string? fileName , string? folderName)
         {
             if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(folderName))
             {

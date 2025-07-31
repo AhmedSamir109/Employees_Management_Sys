@@ -68,13 +68,20 @@ namespace EmpsManagement.BLL.Services.Employee
         #endregion
 
         #region Update 
-        public int UpdateEmployee(UpdateEmployeeDto employeeDto)
+        public int UpdateEmployee(UpdateEmployeeDto employeeDto , string? oldImageName)
         {
+            string? ImageName;
+
             if (employeeDto.Image is not null)
             {
-                _attachmentServices.Upload(employeeDto.Image, "images");
+                ImageName = _attachmentServices.Upload(employeeDto.Image, "images");
+                _attachmentServices.Delete(oldImageName, "images");
+            }else
+            {
+                ImageName = oldImageName; // If no new image is provided, keep the old image name
             }
-            _unitOfWork.EmployeeRepository.Update(employeeDto.ToEntity());
+
+            _unitOfWork.EmployeeRepository.Update(employeeDto.ToEntity(ImageName));
             return _unitOfWork.SaveChanges();
         }
         #endregion
@@ -83,7 +90,6 @@ namespace EmpsManagement.BLL.Services.Employee
         public bool DeleteEmployee(int id)
         {
             var employee = _unitOfWork.EmployeeRepository.GetById(id);
-
             if (employee is null)
             {
                 return false; // Employee not found

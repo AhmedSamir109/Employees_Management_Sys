@@ -12,7 +12,7 @@
 
 @if (Model.Any())
 {
-    <table class="text-center table table-striped table-hover">
+    <table class="text-center table table-hover">
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(d => d.Code)</th>
@@ -32,13 +32,13 @@
                     <td>@dept.Name</td>
                     <td>@dept.Description</td>
                     <td>@dept.DateOfCreation</td>
-                    <td> <a class="btn btn-primary" title="Details" asp-action="Details" asp-route-Id="@dept.Id"> <i class="fa-solid fa-eye"></i> Details </a></td>
-                    <td> <a class="btn btn-success" title="Edit" asp-action="Edit" asp-route-Id="@dept.Id"> <i class="fa-solid fa-pen-to-square"></i> Edit </a></td>
+                    <td> <a class="btn btn-primary" title="Details" asp-action="Details" asp-route-Id="@dept.Id"> <i class="fa-solid fa-eye"></i>  </a></td>
+                    <td> <a class="btn btn-success" title="Edit" asp-action="Edit" asp-route-Id="@dept.Id"> <i class="fa-solid fa-pen-to-square"></i>  </a></td>
                    
                     @* <td> <a class="btn btn-danger" title="Delete" asp-action="Delete" asp-route-Id="@dept.Id"> <i class="fa-solid fa-trash"></i></a></td> *@
                     <td>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@dept.Id">
-                        <i class="fa-solid fa-trash"></i> Delete
+                        <i class="fa-solid fa-trash"></i> 
                     </button>
 
                     <div class="modal fade" id="DeleteModal-@dept.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

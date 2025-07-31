@@ -21,8 +21,8 @@ namespace EmpsManagement.BLL.Factories
                 IsActive = employee.IsActive,
                 EmployeeType = employee.EmployeeType.ToString(),
                 Gender = employee.Gender.ToString(),
-                DepartmentName = employee.Department?.Name 
-
+                DepartmentName = employee.Department?.Name ,
+                ImageName = employee.ImageName // Assuming you want to return the image name
 
             };
         }
@@ -60,7 +60,7 @@ namespace EmpsManagement.BLL.Factories
 
         #region DTOs for (Writing) From PL To DAL across BLL
 
-        public static Employee ToEntity(this CreateEmployeeDto employee , string ImageName)
+        public static Employee ToEntity(this CreateEmployeeDto employee , string? ImageName)
         {
             return new Employee()
             {
@@ -79,7 +79,7 @@ namespace EmpsManagement.BLL.Factories
 
             };
         }
-        public static Employee ToEntity(this UpdateEmployeeDto employee)
+        public static Employee ToEntity(this UpdateEmployeeDto employee , string? ImageName)
         {
             return new Employee()
             {
@@ -95,7 +95,7 @@ namespace EmpsManagement.BLL.Factories
                 EmployeeType = employee.EmployeeType,
                 Gender = employee.Gender,
                 DepartmentId = employee.DepartmentId,
-                ImageName = employee.Image?.FileName // Assuming you want to store the image name
+                ImageName = ImageName // Assuming you want to store the image name
             };
         }
         #endregion
