@@ -15,11 +15,13 @@ namespace EmpsManagement.PL.Controllers.Identity
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager , RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         #region Register
@@ -49,6 +51,15 @@ namespace EmpsManagement.PL.Controllers.Identity
                 var result = await _userManager.CreateAsync(user, model.Password);  // take password --> hash it then store in DB
                 if (result.Succeeded)
                 {
+                    // Assign role here
+                    if (!await _roleManager.RoleExistsAsync("User"))
+                        await _roleManager.CreateAsync(new IdentityRole("User"));
+
+                    await _userManager.AddToRoleAsync(user, "User");
+
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+
+
                     // Optionally, you can sign in the user or redirect to a confirmation page
                     return RedirectToAction("Login");
                 }

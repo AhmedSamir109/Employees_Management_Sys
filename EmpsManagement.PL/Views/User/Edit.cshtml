@@ -12,27 +12,40 @@
 
         <div class="form-group mb-3">
             <label class="form-label" asp-for="FName"></label>
-            <input asp-for="FName" class="form-control"  />
+            <input asp-for="FName" class="form-control" />
         </div>
 
-        <input asp-for="Id" hidden/>
+        <input asp-for="Id" hidden />
 
         <input asp-for="Email" hidden />
 
         <div class="form-group mb-3">
             <label class="form-label" asp-for="LName"></label>
-            <input asp-for="LName" class="form-control"  />
+            <input asp-for="LName" class="form-control" />
         </div>
 
         <div class="form-group mb-3 ">
             <label class="form-label" asp-for="PhoneNumber"></label>
-            <input asp-for="PhoneNumber" class="form-control"  />
+            <input asp-for="PhoneNumber" class="form-control" />
         </div>
 
 
-    
+        <div class="form-group mb-3 ">
+            <div class="form-group mb-3">
+                <label class="form-label" asp-for="Roles"></label>
+                @foreach (var role in (List<string>)ViewBag.Roles)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input"
+                               name="Roles" value="@role"
+                               @(Model.Roles.Contains(role) ? "checked" : "") />
+                        <label class="form-check-label">@role</label>
+                    </div>
+                }
+            </div>
+        </div>
 
-        <input type="submit"  value="Save" class="btn btn-success"/>
+        <input type="submit" value="Save" class="btn btn-success" />
         <a asp-action="Index" class="btn btn-outline-primary">Back To list</a>
 
     </form>

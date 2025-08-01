@@ -82,12 +82,14 @@ namespace EmpsManagement.PL.Controllers.User
         #region Details
 
         [HttpGet]
-        public async Task<IActionResult> Details(string? Id, string viewName = "Details")
+        public async Task<IActionResult> Details(string? Id)
         {
             if (Id is null)
                 return BadRequest();
 
             var user = await _userManager.FindByIdAsync(Id);
+            var roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+            ViewBag.Roles = roles;
 
             if (User is null)
             {
@@ -105,7 +107,7 @@ namespace EmpsManagement.PL.Controllers.User
                     Roles = _userManager.GetRolesAsync(user).Result
                 };
 
-                return View(viewName, UserVm);
+                return View( UserVm);
             }
 
 
@@ -114,10 +116,35 @@ namespace EmpsManagement.PL.Controllers.User
         #endregion
 
         #region Edit
+
         [HttpGet]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string Id)
         {
-            return await Details(id, "Edit");
+            if (Id is null)
+                return BadRequest();
+
+            var user = await _userManager.FindByIdAsync(Id);
+            var roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+            ViewBag.Roles = roles;
+
+            if (User is null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var UserVm = new UserViewModel
+                {
+                    Id = user.Id,
+                    FName = user.FirstName,
+                    LName = user.LastName ?? "_",
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber ?? "_",
+                    Roles = _userManager.GetRolesAsync(user).Result
+                };
+
+                return View(UserVm);
+            }
         }
 
 
@@ -145,13 +172,25 @@ namespace EmpsManagement.PL.Controllers.User
                     user.FirstName = model.FName;
                     user.LastName = model.LName;
                     user.PhoneNumber= model.PhoneNumber;
-                    
-                    
-                    //await _userManager.AddToRoleAsync(user , model.Roles?.FirstOrDefault() ?? "No Roles Assigned");
-                    await _roleManager.CreateAsync(new IdentityRole(model.Roles?.FirstOrDefault() ?? "No Roles Assigned"));
-
 
                     await _userManager.UpdateAsync(user);
+
+                    ////await _userManager.AddToRoleAsync(user , model.Roles?.FirstOrDefault() ?? "No Roles Assigned");
+                    //await _roleManager.CreateAsync(new IdentityRole(model.Roles?.FirstOrDefault() ?? "No Roles Assigned"));
+
+
+                    var currentRoles = await _userManager.GetRolesAsync(user);
+                    var selectedRoles = model.Roles ?? new List<string>();
+
+                    // Remove unchecked roles
+                    var rolesToRemove = currentRoles.Except(selectedRoles);
+                    await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+
+                    // Add new roles
+                    var rolesToAdd = selectedRoles.Except(currentRoles);
+                    await _userManager.AddToRolesAsync(user, rolesToAdd);
+
+
                     TempData["Message"] = "User Updated Successfully";
 
                     return RedirectToAction("Index");
