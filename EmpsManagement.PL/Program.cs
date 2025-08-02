@@ -30,13 +30,6 @@ namespace EmpsManagement.PL
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // This filter automatically validates the antiforgery token for all POST requests to prevent CSRF attacks.
 
-                //var policy = new AuthorizationPolicyBuilder()
-                //               .RequireAuthenticatedUser()
-                //               .Build();
-
-                //options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter());
-                //options.Filters.Add(new AuthorizeFilter(policy));
-
 
             });
 

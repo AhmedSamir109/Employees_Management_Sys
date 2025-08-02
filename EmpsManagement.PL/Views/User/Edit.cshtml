@@ -45,6 +45,8 @@
             </div>
         </div>
 
+        @Html.AntiForgeryToken()
+
         <input type="submit" value="Save" class="btn btn-success" />
         <a asp-action="Index" class="btn btn-outline-primary">Back To list</a>
 
