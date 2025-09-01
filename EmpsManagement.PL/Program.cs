@@ -48,7 +48,8 @@ namespace EmpsManagement.PL
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IAttachmentServices, AttachmentServices>();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {         // Add Identity services for user and role management
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {         // Add Identity services for user and role management --> allow dependancy injection of UserManager and RoleManager and signInManager in controllers and services
                 options.Password.RequireDigit = true; // Require at least one digit in the password
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
@@ -58,7 +59,7 @@ namespace EmpsManagement.PL
               .AddDefaultTokenProviders(); // Add default token providers for password reset, email confirmation, etc.
 
 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)   //  is the default authentication scheme name used by ASP.NET Core's cookie-based authentication system.
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)   //  is the default authentication scheme name used by ASP.NET Core's    --->>> cookie-based authentication system. <<<----
                             .AddCookie(options =>
                             {
                                 options.LoginPath = "/Account/Login";                 // redirect to this path when the user is not authenticated or not authorized or token is expired or logout
@@ -69,6 +70,14 @@ namespace EmpsManagement.PL
             #endregion
 
             var app = builder.Build();
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await AdminSetter.SeedAdminAsync(services);  // Call your helper method here
+            }
+
 
 
             #region  Configure the HTTP request pipeline.
@@ -107,12 +116,6 @@ namespace EmpsManagement.PL
             #endregion
 
 
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                await AdminSetter.SeedAdminAsync(services);  // Call your helper method here
-            }
 
 
             app.Run();

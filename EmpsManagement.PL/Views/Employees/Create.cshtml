@@ -2,7 +2,9 @@
 
 @{
     ViewData["Title"] = "Create";
-    var Departments = new SelectList(ViewData["Departments"] as IEnumerable<DepartmentDto> , "Id", "Name" );
+    // var Departments = new SelectList( ViewBag.Departments , "Id", "Name");
+    var Departments = new SelectList(ViewData["Departments"] as IEnumerable<DepartmentDto> , nameof(DepartmentDto.Id), nameof(DepartmentDto.Name) );
+
 
 }
 

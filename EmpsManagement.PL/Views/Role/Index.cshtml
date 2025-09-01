@@ -1,0 +1,116 @@
+﻿@model IEnumerable<RoleViewModel>  
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<div class="mt-2 mb-5">
+    <form asp-controller="Role" asp-action="index" class="row justify-content-between align-items-center my-3 px-4" method="get">
+
+        <a class="col-sm-2 btn btn-outline-primary" asp-controller="Role" asp-action="Create"> <i class="fa-solid fa-plus me-2"></i> Create Role</a>
+
+        <div class="col-sm-6 d-flex justify-content-end">
+
+            <div class="col-10">
+                <input class="form-control" type="text" name="searchWord" placeholder="Search Role By Name" />
+            </div>
+            <div class="col-2 text-end">
+                <input type="submit" class="btn btn-primary w-75 " value="Search" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+@if (Model.Any())
+{
+    <table class="table table-hover mt-3">
+        <thead class="text-center ">
+            <tr>
+                <th>@Html.DisplayNameFor(r => r.Id)</th>
+                <th>@Html.DisplayNameFor(r => r.RoleName)</th>
+               
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            @foreach (var role in Model)
+            {
+                <tr>
+                    
+                    <td class="align-middle">@role.Id</td>
+                    <td class="align-middle text-primary">@role.RoleName</td>
+                   
+
+                  
+                    <td class="align-middle">
+                        <a class="btn btn-success" asp-action="Edit" asp-route-id="@role.Id">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@role.Id">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal-@role.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Employee</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are You Sure to Delete this Employee with Name @role.RoleName ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post" asp-action="Delete" asp-controller="Role" asp-route-id="@role.Id" class="mt-4">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info mt-3">
+        <h2>No Roles Found !!</h2>
+    </div>
+}
+
+
+
+@if (!string.IsNullOrWhiteSpace(TempData["Message"] as string))
+{
+    <div aria-live="polite" aria-atomic="true" class="toast-container position-fixed p-3" style="bottom: 25px; right:25px; z-index: 100;">
+        <div class="toast fade show " role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto text-success">Success!!</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Message"]
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

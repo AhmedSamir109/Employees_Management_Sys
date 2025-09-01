@@ -48,7 +48,7 @@ namespace EmpsManagement.PL.Controllers.Identity
                     LastName = model.LastName,
                     IsAgree = model.IsAgree
                 };
-                var result = await _userManager.CreateAsync(user, model.Password);  // take password --> hash it then store in DB
+                var result = await _userManager.CreateAsync(user, model.Password);  // take password --> hash it then store user in DB
                 if (result.Succeeded)
                 {
                     // Assign role here
